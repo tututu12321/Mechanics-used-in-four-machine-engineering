@@ -1,0 +1,30 @@
+import numpy as np
+import matplotlib.pyplot as plt
+
+# Constants
+V = np.linspace(0.1, 10, 100)  # Volume range (m^3)
+p0 = 10  # Reference pressure (Pa)
+n_values = [1, 1.4, 5, np.inf]  # Various values of n for polytropic processes
+
+# Create a figure for plotting
+plt.figure(figsize=(8, 6))
+
+# Plot polytropic processes for different values of n
+for n in n_values:
+    if n == np.inf:
+        # For n=∞ (isochoric process), volume is constant, pressure is fixed
+        plt.plot([V[0], V[-1]], [p0, p0], label=f'n = {n} (Isochoric)', linestyle='--')
+    else:
+        p = p0 * (V[0] / V) ** n  # Polytropic relation pV^n = constant
+        plt.plot(V, p, label=f'n = {n}')
+    
+# Labels and title
+plt.title('Polytropic Process (P-V Diagram)')
+plt.xlabel('Volume (V) [m^3]')
+plt.ylabel('Pressure (p) [Pa]')
+plt.grid(True)
+plt.legend()
+
+# Show the plot
+plt.tight_layout()
+plt.show()
