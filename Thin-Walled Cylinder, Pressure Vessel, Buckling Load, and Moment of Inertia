@@ -1,0 +1,71 @@
+import numpy as np
+
+# Function to calculate hoop stress for thin-walled cylinder
+def hoop_stress(p, r, t):
+    """
+    p: Internal pressure (Pa)
+    r: Radius of the cylinder (m)
+    t: Thickness of the wall (m)
+    """
+    return (p * r) / t  # Hoop stress (Pa)
+
+# Function to calculate critical buckling load for a column (Euler's formula)
+def buckling_load(E, I, L, end_condition='pinned'):
+    """
+    E: Young's modulus (Pa)
+    I: Moment of inertia (m^4)
+    L: Length of the column (m)
+    end_condition: Boundary condition ('pinned', 'fixed', 'free-fixed')
+    """
+    if end_condition == 'pinned':
+        Pcr = (np.pi**2 * E * I) / (L**2)
+    elif end_condition == 'fixed':
+        Pcr = (4 * np.pi**2 * E * I) / (L**2)
+    elif end_condition == 'free-fixed':
+        Pcr = (np.pi**2 * E * I) / ((L / 2)**2)
+    return Pcr  # Critical buckling load (N)
+
+# Function to calculate moment of inertia for a rectangular section
+def moment_of_inertia_rectangular(b, h):
+    """
+    b: Width of the rectangular section (m)
+    h: Height of the rectangular section (m)
+    """
+    return (b * h**3) / 12  # Moment of inertia (m^4)
+
+# Function to calculate moment of inertia for a circular section
+def moment_of_inertia_circular(r):
+    """
+    r: Radius of the circular section (m)
+    """
+    return (np.pi * r**4) / 4  # Moment of inertia (m^4)
+
+# Example values
+p = 5000000  # Internal pressure (Pa)
+r = 0.5  # Radius of the cylinder (m)
+t = 0.01  # Thickness of the wall (m)
+E = 2.1e11  # Young's modulus for steel (Pa)
+L = 10  # Length of the column (m)
+b = 0.2  # Width of the rectangular section (m)
+h = 0.4  # Height of the rectangular section (m)
+radius = 0.1  # Radius of the circular section (m)
+
+# Calculate hoop stress for thin-walled cylinder
+hoop = hoop_stress(p, r, t)
+print(f"Hoop Stress for Thin-Walled Cylinder: {hoop:.2f} Pa")
+
+# Calculate buckling load for pinned column
+Pcr_pinned = buckling_load(E, moment_of_inertia_rectangular(b, h), L, 'pinned')
+print(f"Critical Buckling Load for Pinned Column: {Pcr_pinned:.2f} N")
+
+# Calculate buckling load for fixed column
+Pcr_fixed = buckling_load(E, moment_of_inertia_rectangular(b, h), L, 'fixed')
+print(f"Critical Buckling Load for Fixed Column: {Pcr_fixed:.2f} N")
+
+# Calculate moment of inertia for a rectangular section
+I_rect = moment_of_inertia_rectangular(b, h)
+print(f"Moment of Inertia for Rectangular Section: {I_rect:.6e} m^4")
+
+# Calculate moment of inertia for a circular section
+I_circ = moment_of_inertia_circular(radius)
+print(f"Moment of Inertia for Circular Section: {I_circ:.6e} m^4")
