@@ -1,0 +1,30 @@
+import numpy as np
+
+# 熱応力の計算関数
+def thermal_stress(E, alpha, delta_T):
+    return E * alpha * delta_T  # 熱応力 = E * α * ΔT
+
+# 力のつり合いを確認する関数（力の合計がゼロになることを確認）
+def equilibrium_forces(forces):
+    return np.sum(forces)  # 力の合計がゼロであればつり合いが成立
+
+# 線膨張の計算関数
+def linear_expansion(alpha, L0, delta_T):
+    return alpha * L0 * delta_T  # 長さの変化 = α * L0 * ΔT
+
+# 入力値
+E = 2.1e11  # ヤング率 (Pa)
+alpha = 12e-6  # 線膨張係数 (1/°C)
+delta_T = 50  # 温度変化 (°C)
+L0 = 2  # 初期長さ (m)
+forces = np.array([1000, -1000])  # 作用する力の例 (N)
+
+# 計算
+thermal_stress_value = thermal_stress(E, alpha, delta_T)  # 熱応力 (Pa)
+expansion = linear_expansion(alpha, L0, delta_T)  # 長さの変化 (m)
+equilibrium_result = equilibrium_forces(forces)  # 力のつり合い
+
+# 結果表示
+print(f"Thermal Stress: {thermal_stress_value:.2f} Pa")
+print(f"Length Change due to Expansion: {expansion:.6f} m")
+print(f"Sum of Forces (Equilibrium): {equilibrium_result:.2f} N")
