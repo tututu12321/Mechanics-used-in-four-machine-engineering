@@ -1,0 +1,88 @@
+import numpy as np
+
+# Function to calculate the pressure difference in a Venturi tube
+def venturi_pressure_difference(rho, v1, v2):
+    """
+    rho: Fluid density (kg/m³)
+    v1: Fluid velocity at point 1 (m/s)
+    v2: Fluid velocity at point 2 (m/s)
+    """
+    return 0.5 * rho * (v1**2 - v2**2)  # Pressure difference (Pa)
+
+# Function to calculate velocity using Bernoulli's equation
+def bernoulli_velocity(P1, P2, rho, v1, h1, h2):
+    """
+    P1: Pressure at point 1 (Pa)
+    P2: Pressure at point 2 (Pa)
+    rho: Fluid density (kg/m³)
+    v1: Velocity at point 1 (m/s)
+    h1: Height at point 1 (m)
+    h2: Height at point 2 (m)
+    """
+    return np.sqrt(2 * (P1 - P2 + 0.5 * rho * (v1**2) + rho * 9.81 * (h1 - h2)) / rho)
+
+# Function to calculate flow velocity using a Pitot tube
+def pitot_velocity(P0, P, rho):
+    """
+    P0: Stagnation pressure (Pa)
+    P: Static pressure (Pa)
+    rho: Fluid density (kg/m³)
+    """
+    return np.sqrt(2 * (P0 - P) / rho)  # Flow velocity (m/s)
+
+# Function to calculate flow through a tank orifice (Torricelli's law)
+def orifice_flow_rate(Cd, A, h, g=9.81):
+    """
+    Cd: Discharge coefficient (dimensionless)
+    A: Area of the orifice (m²)
+    h: Height of the fluid above the orifice (m)
+    g: Gravitational acceleration (m/s²)
+    """
+    return Cd * A * np.sqrt(2 * g * h)  # Flow rate (m³/s)
+
+# Function to calculate flow through an orifice or nozzle
+def nozzle_orifice_flow_rate(Cd, A, delta_P, rho):
+    """
+    Cd: Discharge coefficient (dimensionless)
+    A: Area of the orifice or nozzle (m²)
+    delta_P: Pressure difference (Pa)
+    rho: Fluid density (kg/m³)
+    """
+    return Cd * A * np.sqrt(2 * delta_P / rho)  # Flow rate (m³/s)
+
+# Function to calculate flow through a syphon
+def syphon_flow_rate(A, h1, h2, g=9.81):
+    """
+    A: Cross-sectional area of the syphon (m²)
+    h1: Height of the liquid at the entry point (m)
+    h2: Height of the liquid at the exit point (m)
+    g: Gravitational acceleration (m/s²)
+    """
+    return A * np.sqrt(2 * g * (h1 - h2))  # Flow rate (m³/s)
+
+# Example values
+rho = 1000  # Density of water (kg/m³)
+v1 = 5  # Velocity at point 1 (m/s)
+v2 = 3  # Velocity at point 2 (m/s)
+P0 = 101325  # Stagnation pressure (Pa)
+P = 100000  # Static pressure (Pa)
+h1 = 10  # Height at point 1 (m)
+h2 = 5  # Height at point 2 (m)
+Cd = 0.61  # Discharge coefficient (dimensionless)
+A = 0.01  # Area (m²)
+delta_P = 5000  # Pressure difference (Pa)
+h = 5  # Height of fluid in tank (m)
+
+# Calculate values
+venturi_delta_P = venturi_pressure_difference(rho, v1, v2)
+bernoulli_v = bernoulli_velocity(P0, P, rho, v1, h1, h2)
+pitot_v = pitot_velocity(P0, P, rho)
+orifice_flow = orifice_flow_rate(Cd, A, h)
+nozzle_flow = nozzle_orifice_flow_rate(Cd, A, delta_P, rho)
+syphon_flow = syphon_flow_rate(A, h1, h2)
+
+# Print results
+print(f"Venturi Pressure Difference: {venturi_delta_P:.2f} Pa")
+print(f"Bernoulli's Velocity: {bernoulli_v:.2f} m/s")
+print(f"Pitot Tube Velocity: {pitot_v:.2f} m/s")
+print(f"Flow through Tank Orifice: {orifice_flow:.2f}
