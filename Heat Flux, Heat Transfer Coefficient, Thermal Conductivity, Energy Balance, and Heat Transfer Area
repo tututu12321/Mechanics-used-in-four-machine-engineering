@@ -1,0 +1,65 @@
+import numpy as np
+
+# Function to calculate heat flux using Fourier's Law
+def heat_flux(k, dT, dx):
+    """
+    k: Thermal conductivity (W/m·K)
+    dT: Temperature difference (K)
+    dx: Distance over which temperature changes (m)
+    """
+    return -k * (dT / dx)  # Heat flux (W/m²)
+
+# Function to calculate heat transfer rate using the heat transfer coefficient
+def heat_transfer_rate(h, A, T_s, T_inf):
+    """
+    h: Heat transfer coefficient (W/m²·K)
+    A: Heat transfer area (m²)
+    T_s: Surface temperature (K)
+    T_inf: Ambient temperature (K)
+    """
+    return h * A * (T_s - T_inf)  # Heat transfer rate (W)
+
+# Function to calculate thermal conductivity using Fourier's Law
+def thermal_conductivity(q, dT, dx, A):
+    """
+    q: Heat flux (W/m²)
+    dT: Temperature difference (K)
+    dx: Distance over which temperature changes (m)
+    A: Heat transfer area (m²)
+    """
+    return q * dx / (dT * A)  # Thermal conductivity (W/m·K)
+
+# Function to calculate energy balance (for steady state)
+def energy_balance(Q_in, Q_out):
+    """
+    Q_in: Heat input rate (W)
+    Q_out: Heat output rate (W)
+    """
+    return Q_in - Q_out  # Energy balance (W)
+
+# Example values
+k = 200  # Thermal conductivity (W/m·K) (e.g., for copper)
+dT = 50  # Temperature difference (K)
+dx = 0.1  # Distance (m)
+A = 2.0  # Heat transfer area (m²)
+h = 50  # Heat transfer coefficient (W/m²·K)
+T_s = 350  # Surface temperature (K)
+T_inf = 300  # Ambient temperature (K)
+Q_in = 500  # Heat input rate (W)
+Q_out = 450  # Heat output rate (W)
+
+# Calculate heat flux
+heat_flux_result = heat_flux(k, dT, dx)
+print(f"Heat Flux: {heat_flux_result:.2f} W/m²")
+
+# Calculate heat transfer rate
+heat_transfer_rate_result = heat_transfer_rate(h, A, T_s, T_inf)
+print(f"Heat Transfer Rate: {heat_transfer_rate_result:.2f} W")
+
+# Calculate thermal conductivity
+thermal_conductivity_result = thermal_conductivity(heat_flux_result, dT, dx, A)
+print(f"Thermal Conductivity: {thermal_conductivity_result:.2f} W/m·K")
+
+# Calculate energy balance
+energy_balance_result = energy_balance(Q_in, Q_out)
+print(f"Energy Balance (Steady State): {energy_balance_result:.2f} W")
