@@ -1,0 +1,60 @@
+import numpy as np
+
+# 熱抵抗の計算関数
+def thermal_resistance(L, k, A):
+    """
+    L: 物質の長さ (m)
+    k: 熱伝導率 (W/m·K)
+    A: 断面積 (m^2)
+    """
+    return L / (k * A)  # 熱抵抗 R_th = L / (k * A)
+
+# 熱通過率の計算関数
+def thermal_transmittance(k, A, L):
+    """
+    k: 熱伝導率 (W/m·K)
+    A: 断面積 (m^2)
+    L: 物質の長さ (m)
+    """
+    return k * A / L  # 熱通過率 U = k * A / L
+
+# 熱伝導による熱流量の計算関数
+def conduction_heat_transfer(k, A, delta_T, L):
+    """
+    k: 熱伝導率 (W/m·K)
+    A: 断面積 (m^2)
+    delta_T: 温度差 (K)
+    L: 物質の長さ (m)
+    """
+    return k * A * delta_T / L  # 熱流量 Q = k * A * delta_T / L
+
+# 円筒の定常熱伝導の計算関数
+def cylindrical_heat_conduction(k, L, delta_T, r1, r2):
+    """
+    k: 熱伝導率 (W/m·K)
+    L: 円筒の長さ (m)
+    delta_T: 温度差 (K)
+    r1: 内半径 (m)
+    r2: 外半径 (m)
+    """
+    return (2 * np.pi * k * L * delta_T) / np.log(r2 / r1)  # 円筒の熱流量
+
+# 入力値の設定
+L = 2.0  # 長さ (m)
+k = 200  # 熱伝導率 (W/m·K) (例: 金属)
+A = 0.01  # 断面積 (m^2)
+delta_T = 50  # 温度差 (K)
+r1 = 0.05  # 内半径 (m)
+r2 = 0.1   # 外半径 (m)
+
+# 計算
+R_th = thermal_resistance(L, k, A)  # 熱抵抗
+U = thermal_transmittance(k, A, L)  # 熱通過率
+Q_conduction = conduction_heat_transfer(k, A, delta_T, L)  # 熱伝導による熱流量
+Q_cylindrical = cylindrical_heat_conduction(k, L, delta_T, r1, r2)  # 円筒の定常熱伝導
+
+# 結果表示
+print(f"Thermal Resistance (R_th): {R_th:.2f} K·m²/W")
+print(f"Thermal Transmittance (U): {U:.2f} W/K")
+print(f"Conduction Heat Transfer (Q): {Q_conduction:.2f} W")
+print(f"Cylindrical Steady-State Heat Conduction (Q): {Q_cylindrical:.2f} W")
