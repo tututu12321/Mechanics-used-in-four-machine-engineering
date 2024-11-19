@@ -1,0 +1,86 @@
+import numpy as np
+import matplotlib.pyplot as plt
+
+# Function to calculate natural frequency (ω_0)
+def natural_frequency(k, m):
+    """
+    k: Stiffness (N/m)
+    m: Mass (kg)
+    """
+    return np.sqrt(k / m)  # Natural frequency (rad/s)
+
+# Function to calculate damped natural frequency (ω_d)
+def damped_natural_frequency(k, m, c):
+    """
+    k: Stiffness (N/m)
+    m: Mass (kg)
+    c: Damping coefficient (Ns/m)
+    """
+    omega_0 = natural_frequency(k, m)
+    return np.sqrt(omega_0**2 - (c / (2 * m))**2)  # Damped natural frequency (rad/s)
+
+# Function to calculate frequency response function (FRF) magnitude
+def frf_magnitude(omega, k, m, c):
+    """
+    omega: Frequency of excitation (rad/s)
+    k: Stiffness (N/m)
+    m: Mass (kg)
+    c: Damping coefficient (Ns/m)
+    """
+    omega_0 = natural_frequency(k, m)
+    return 1 / np.sqrt((omega_0**2 - omega**2)**2 + (c * omega)**2)  # FRF magnitude
+
+# Function to calculate phase of frequency response function
+def frf_phase(omega, k, m, c):
+    """
+    omega: Frequency of excitation (rad/s)
+    k: Stiffness (N/m)
+    m: Mass (kg)
+    c: Damping coefficient (Ns/m)
+    """
+    omega_0 = natural_frequency(k, m)
+    return np.arctan2(c * omega, omega_0**2 - omega**2)  # FRF phase (radians)
+
+# Example values for the system
+k = 1000  # Stiffness (N/m)
+m = 10  # Mass (kg)
+c = 50  # Damping coefficient (Ns/m)
+
+# Frequency range for the response
+omega = np.logspace(-1, 3, 1000)  # Frequency range (rad/s)
+
+# Calculate the frequency response magnitude and phase
+magnitude = frf_magnitude(omega, k, m, c)
+phase = frf_phase(omega, k, m, c)
+
+# Plot the Frequency Response Diagram (FRD)
+plt.figure(figsize=(10, 6))
+
+# Plot Magnitude Response
+plt.subplot(2, 1, 1)
+plt.semilogx(omega, 20 * np.log10(magnitude), label="Magnitude Response (dB)", color='blue')
+plt.axvline(x=natural_frequency(k, m), color='red', linestyle='--', label="Natural Frequency (ω₀)")
+plt.title("Frequency Response Diagram (Magnitude)")
+plt.xlabel("Frequency (rad/s)")
+plt.ylabel("Magnitude (dB)")
+plt.grid(True)
+plt.legend()
+
+# Plot Phase Response
+plt.subplot(2, 1, 2)
+plt.semilogx(omega, np.degrees(phase), label="Phase Response", color='green')
+plt.axvline(x=natural_frequency(k, m), color='red', linestyle='--', label="Natural Frequency (ω₀)")
+plt.title("Frequency Response Diagram (Phase)")
+plt.xlabel("Frequency (rad/s)")
+plt.ylabel("Phase (degrees)")
+plt.grid(True)
+plt.legend()
+
+plt.tight_layout()
+plt.show()
+
+# Print the natural and damped natural frequencies
+omega_0 = natural_frequency(k, m)
+omega_d = damped_natural_frequency(k, m, c)
+print(f"Natural Frequency (ω₀): {omega_0:.2f} rad/s")
+print(f"Damped Natural Frequency (ωd): {omega_d:.2f} rad/s")
