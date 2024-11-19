@@ -1,0 +1,24 @@
+import numpy as np
+
+# 応力を計算する関数
+def calculate_stress(F, A):
+    return F / A  # 応力 = 荷重 / 面積
+
+# 円形断面の面積を計算する関数
+def calculate_area(radius):
+    return np.pi * radius**2  # 面積 = π * r^2
+
+# 荷重と半径を入力
+F = 5000  # 荷重 (N)
+radius = 0.05  # 半径 (m)
+
+# 円形断面の面積を計算
+A = calculate_area(radius)
+
+# 応力を計算
+stress = calculate_stress(F, A)
+
+# 結果を表示
+print(f"断面積: {A:.4f} m²")
+print(f"荷重: {F} N")
+print(f"応力: {stress:.2f} Pa (パスカル)")
