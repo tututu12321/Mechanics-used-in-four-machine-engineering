@@ -1,0 +1,79 @@
+import numpy as np
+
+# Constants
+R = 8.314  # Ideal gas constant in J/mol·K
+
+# Ideal gas state equation: P * V = n * R * T
+def ideal_gas_state(P, V, n, T):
+    return P * V - n * R * T  # Returns the difference for ideal gas law
+
+# Reversible adiabatic compression: P * V^gamma = constant
+def adiabatic_compression(P1, V1, P2, V2, gamma):
+    return P1 * V1**gamma, P2 * V2**gamma
+
+# Combustion reaction: Generalized equation for hydrocarbon combustion
+def combustion_reaction(C, H):
+    O2_required = C + (H / 4)
+    return O2_required
+
+# Stoichiometric calculation: Calculate oxygen required for combustion of fuel
+def stoichiometric_calculation(fuel_formula):
+    C = fuel_formula[0]  # Carbon atoms
+    H = fuel_formula[1]  # Hydrogen atoms
+    O2_required = combustion_reaction(C, H)
+    return O2_required
+
+# Molecular weight of hydrocarbon (C_x H_y)
+def molecular_weight(C, H):
+    return 12 * C + 1 * H  # g/mol
+
+# Thermal conductivity equation: q = -k * dT/dx
+def heat_flux(k, dT, dx):
+    return -k * (dT / dx)
+
+# Heat transfer coefficient: q = h * A * (T_s - T_inf)
+def heat_transfer_coefficient(h, A, Ts, T_inf):
+    return h * A * (Ts - T_inf)
+
+# Example values
+P = 101325  # Pressure (Pa)
+V = 1.0  # Volume (m³)
+n = 1.0  # Moles (mol)
+T = 300  # Temperature (K)
+
+# Ideal gas calculation
+ideal_gas_result = ideal_gas_state(P, V, n, T)
+print(f"Ideal Gas Law result: {ideal_gas_result:.2f} J")
+
+# Adiabatic compression calculation (example)
+P1 = 100000  # Initial pressure (Pa)
+V1 = 1.0  # Initial volume (m³)
+P2 = 200000  # Final pressure (Pa)
+V2 = 0.5  # Final volume (m³)
+gamma = 1.4  # Adiabatic index
+adiabatic_result = adiabatic_compression(P1, V1, P2, V2, gamma)
+print(f"Adiabatic Compression: {adiabatic_result[0]:.2f} = {adiabatic_result[1]:.2f}")
+
+# Stoichiometric calculation for combustion of C6H12 (hexane)
+fuel_formula = [6, 12]  # C6H12
+oxygen_required = stoichiometric_calculation(fuel_formula)
+print(f"Oxygen required for combustion: {oxygen_required:.2f} mol O2")
+
+# Molecular weight calculation for C6H12
+molecular_weight_result = molecular_weight(6, 12)
+print(f"Molecular weight of C6H12: {molecular_weight_result} g/mol")
+
+# Heat flux calculation
+k = 0.5  # Thermal conductivity (W/m·K)
+dT = 100  # Temperature difference (K)
+dx = 0.1  # Distance (m)
+heat_flux_result = heat_flux(k, dT, dx)
+print(f"Heat flux: {heat_flux_result:.2f} W")
+
+# Heat transfer coefficient calculation
+h = 10  # Heat transfer coefficient (W/m²·K)
+A = 2.0  # Area (m²)
+Ts = 350  # Surface temperature (K)
+T_inf = 300  # Ambient temperature (K)
+heat_transfer_result = heat_transfer_coefficient(h, A, Ts, T_inf)
+print(f"Heat transfer: {heat_transfer_result:.2f} W")
