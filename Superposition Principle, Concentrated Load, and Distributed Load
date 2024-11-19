@@ -1,0 +1,60 @@
+import numpy as np
+import matplotlib.pyplot as plt
+
+# Function to calculate bending moment due to concentrated load
+def bending_moment_concentrated(F, a, x):
+    """
+    F: Concentrated load (N)
+    a: Position of the concentrated load (m)
+    x: Position along the beam (m)
+    """
+    return F * (x - a) if x >= a else 0  # Bending moment due to concentrated load
+
+# Function to calculate bending moment due to distributed load
+def bending_moment_distributed(w, L, x):
+    """
+    w: Uniform distributed load (N/m)
+    L: Length of the beam (m)
+    x: Position along the beam (m)
+    """
+    return (w * x * (L - x)) / 2  # Bending moment due to distributed load
+
+# Example values for the beam and loads
+L = 10  # Length of the beam (m)
+F = 500  # Concentrated load (N)
+a = 4  # Position of the concentrated load (m)
+w = 200  # Uniform distributed load (N/m)
+
+# Generate positions along the length of the beam for BMD calculation
+x = np.linspace(0, L, 100)
+
+# Calculate bending moments due to the concentrated load and distributed load
+M_concentrated = np.array([bending_moment_concentrated(F, a, xi) for xi in x])
+M_distributed = np.array([bending_moment_distributed(w, L, xi) for xi in x])
+
+# Apply the principle of superposition (sum the moments)
+M_total = M_concentrated + M_distributed
+
+# Plotting the bending moment diagram for each case
+plt.figure(figsize=(10, 6))
+
+# Plot bending moment due to concentrated load
+plt.plot(x, M_concentrated, label="Bending Moment due to Concentrated Load", color='blue')
+
+# Plot bending moment due to distributed load
+plt.plot(x, M_distributed, label="Bending Moment due to Distributed Load", color='green')
+
+# Plot total bending moment (superposition)
+plt.plot(x, M_total, label="Total Bending Moment (Superposition)", color='red', linestyle='--')
+
+# Adding titles and labels
+plt.axhline(0, color='black',linewidth=1)
+plt.title("Bending Moment Diagram (BMD) with Superposition")
+plt.xlabel("Position along the beam (m)")
+plt.ylabel("Bending Moment (N·m)")
+plt.legend()
+plt.grid(True)
+plt.tight_layout()
+
+# Show the plot
+plt.show()
