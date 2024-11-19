@@ -1,0 +1,53 @@
+import numpy as np
+
+# Function to calculate momentum equation (steady-state)
+def momentum_equation(flow_velocity, density, area, external_force):
+    """
+    flow_velocity: Velocity vector of the fluid (m/s)
+    density: Fluid density (kg/m³)
+    area: Cross-sectional area (m²)
+    external_force: External forces acting on the fluid (N)
+    """
+    # Momentum flow rate (kg·m/s²)
+    momentum_flow_rate = density * flow_velocity**2 * area
+    return momentum_flow_rate - external_force  # Net force (N)
+
+# Function to check continuity equation for incompressible flow (divergence free)
+def continuity_equation_incompressible(flow_velocity):
+    """
+    flow_velocity: Velocity vector of the fluid (m/s)
+    """
+    # For incompressible flow, the divergence of the velocity field should be zero
+    # In 2D, we can compute the divergence as:
+    divergence = np.gradient(flow_velocity)  # Simplified as a numerical gradient
+    return np.sum(divergence)  # Sum of divergences
+
+# Function to calculate mass conservation for compressible flow
+def mass_conservation_compressible(density, velocity, volume):
+    """
+    density: Fluid density (kg/m³)
+    velocity: Fluid velocity vector (m/s)
+    volume: Control volume (m³)
+    """
+    # Calculate the rate of mass entering and leaving the control volume
+    mass_inflow = np.sum(density * velocity * volume)  # Simplified calculation
+    return mass_inflow  # Should be zero for conservation of mass
+
+# Example values for fluid properties and conditions
+density = 1000  # Density of water (kg/m³)
+flow_velocity = 5  # Flow velocity (m/s)
+area = 0.01  # Cross-sectional area (m²)
+external_force = 100  # External force (N)
+volume = 1.0  # Volume of the control volume (m³)
+
+# Calculate momentum equation for steady-state
+momentum_result = momentum_equation(flow_velocity, density, area, external_force)
+print(f"Momentum Equation Result: {momentum_result:.2f} N")
+
+# Check continuity equation for incompressible flow
+continuity_result = continuity_equation_incompressible(flow_velocity)
+print(f"Continuity Equation Result for Incompressible Flow: {continuity_result:.2f}")
+
+# Check mass conservation for compressible flow
+mass_conservation_result = mass_conservation_compressible(density, flow_velocity, volume)
+print(f"Mass Conservation for Compressible Flow: {mass_conservation_result:.2f} kg/s")
