@@ -1,0 +1,46 @@
+import numpy as np
+import matplotlib.pyplot as plt
+
+# Function to calculate natural frequencies and mode shapes
+def natural_frequencies(m1, m2, k1, k2):
+    """
+    m1, m2: Masses (kg)
+    k1, k2: Spring constants (N/m)
+    """
+    # Construct the system's matrix (K - omega^2 M)
+    a = (m1 + m2) * k2
+    b = (m1 + m2) * k2
+    c = m1 * m2 * k1
+
+    # Calculate the discriminant for the characteristic equation
+    discriminant = np.sqrt((b)**2 - 4 * a * c)
+    
+    # Calculate the natural frequencies (angular frequency)
+    omega1 = np.sqrt((b + discriminant) / (2 * m1 * m2))
+    omega2 = np.sqrt((b - discriminant) / (2 * m1 * m2))
+    
+    return omega1, omega2
+
+# Example values for the two-degree-of-freedom system
+m1 = 1.0  # Mass 1 (kg)
+m2 = 1.0  # Mass 2 (kg)
+k1 = 1000  # Spring constant 1 (N/m)
+k2 = 1000  # Spring constant 2 (N/m)
+
+# Calculate the natural frequencies
+omega1, omega2 = natural_frequencies(m1, m2, k1, k2)
+print(f"Natural Frequency 1 (omega1): {omega1:.2f} rad/s")
+print(f"Natural Frequency 2 (omega2): {omega2:.2f} rad/s")
+
+# Plot the vibration mode shapes
+modes = np.array([[1, 0], [0, 1]])  # Simple mode shapes for a 2-DOF system (can be adjusted)
+plt.figure(figsize=(8, 6))
+plt.plot([0, 1], [0, 1], label=f"Mode Shape 1 (omega1 = {omega1:.2f} rad/s)", color='blue')
+plt.plot([0, 1], [0, -1], label=f"Mode Shape 2 (omega2 = {omega2:.2f} rad/s)", color='green')
+
+plt.title("Mode Shapes for 2-DOF Vibrating System")
+plt.xlabel("Mass 1 to Mass 2 Displacement")
+plt.ylabel("Relative Displacement")
+plt.legend()
+plt.grid(True)
+plt.show()
