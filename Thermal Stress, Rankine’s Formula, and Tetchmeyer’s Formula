@@ -1,0 +1,50 @@
+import numpy as np
+
+# Function to calculate thermal stress
+def thermal_stress(E, alpha, delta_T):
+    """
+    E: Young's modulus (Pa)
+    alpha: Coefficient of thermal expansion (1/°C)
+    delta_T: Temperature change (°C)
+    """
+    return E * alpha * delta_T  # Thermal stress (Pa)
+
+# Function to calculate thermal stress using Rankine's formula
+def rankine_thermal_stress(E, alpha, delta_T, nu):
+    """
+    E: Young's modulus (Pa)
+    alpha: Coefficient of thermal expansion (1/°C)
+    delta_T: Temperature change (°C)
+    nu: Poisson's ratio (dimensionless)
+    """
+    return (E * alpha * delta_T) / (1 - nu)  # Rankine's thermal stress (Pa)
+
+# Function to calculate thermal stress using Tetchmeyer's formula
+def tetchmeyer_thermal_stress(E, alpha, delta_T, L, nu):
+    """
+    E: Young's modulus (Pa)
+    alpha: Coefficient of thermal expansion (1/°C)
+    delta_T: Temperature change (°C)
+    L: Length of the beam (m)
+    nu: Poisson's ratio (dimensionless)
+    """
+    return (E * alpha * delta_T * L) / (2 * (1 - nu))  # Tetchmeyer's thermal stress (Pa)
+
+# Example values
+E = 200e9  # Young's modulus for steel (Pa)
+alpha = 12e-6  # Coefficient of thermal expansion for steel (1/°C)
+delta_T = 100  # Temperature change (°C)
+nu = 0.3  # Poisson's ratio for steel (dimensionless)
+L = 5  # Length of the beam (m)
+
+# Calculate thermal stress
+sigma_thermal = thermal_stress(E, alpha, delta_T)
+print(f"Thermal Stress: {sigma_thermal:.2f} Pa")
+
+# Calculate thermal stress using Rankine's formula
+sigma_rankine = rankine_thermal_stress(E, alpha, delta_T, nu)
+print(f"Rankine's Thermal Stress: {sigma_rankine:.2f} Pa")
+
+# Calculate thermal stress using Tetchmeyer's formula
+sigma_tetchmeyer = tetchmeyer_thermal_stress(E, alpha, delta_T, L, nu)
+print(f"Tetchmeyer's Thermal Stress: {sigma_tetchmeyer:.2f} Pa")
