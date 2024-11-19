@@ -1,0 +1,28 @@
+import sympy as sp
+
+# Define symbols for the thermodynamic variables
+T, S, P, V, U, H, G, F = sp.symbols('T S P V U H G F')
+
+# Define the relations between thermodynamic potentials
+enthalpy = U + P * V
+gibbs = H - T * S
+helmholtz = U - T * S
+internal_energy = enthalpy - P * V
+
+# Define the total differentials
+dH = sp.diff(enthalpy, S) * sp.diff(S) + sp.diff(enthalpy, P) * sp.diff(P)
+dF = sp.diff(helmholtz, V) * sp.diff(V) - sp.diff(helmholtz, T) * sp.diff(T)
+dU = sp.diff(internal_energy, S) * sp.diff(S) - sp.diff(internal_energy, P) * sp.diff(P)
+dG = sp.diff(gibbs, P) * sp.diff(P) - sp.diff(gibbs, T) * sp.diff(T)
+
+# Print out the relations
+print(f'Enthalpy H = U + PV: {enthalpy}')
+print(f'Gibbs Free Energy G = H - TS: {gibbs}')
+print(f'Helmholtz Free Energy F = U - TS: {helmholtz}')
+print(f'Internal Energy U = H - PV: {internal_energy}')
+
+# Print the total differentials
+print(f'Total Differential of H: {dH}')
+print(f'Total Differential of F: {dF}')
+print(f'Total Differential of U: {dU}')
+print(f'Total Differential of G: {dG}')
