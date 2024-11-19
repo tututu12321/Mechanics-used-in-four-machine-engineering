@@ -1,0 +1,40 @@
+import numpy as np
+import scipy.linalg as la
+import matplotlib.pyplot as plt
+
+# Given values for the system
+m1 = 2.0  # Mass 1 (kg)
+m2 = 3.0  # Mass 2 (kg)
+k1 = 5.0  # Stiffness 1 (N/m)
+k2 = 6.0  # Stiffness 2 (N/m)
+k3 = 7.0  # Stiffness 3 (N/m)
+
+# Mass matrix (M) and Stiffness matrix (K) for the 2-DOF system
+M = np.array([[m1, 0], [0, m2]])  # Mass matrix (kg)
+K = np.array([[k1 + k2, -k2], [-k2, k2 + k3]])  # Stiffness matrix (N/m)
+
+# Eigenvalue problem for undamped system: (K - omega^2 * M) * phi = 0
+# Solving the generalized eigenvalue problem
+eigenvalues, eigenvectors = la.eig(K, M)
+
+# Natural frequencies (in radians per second)
+omega_n = np.sqrt(np.real(eigenvalues))
+
+# Mode shapes (eigenvectors corresponding to eigenvalues)
+mode_shapes = np.real(eigenvectors)
+
+# Print natural frequencies and mode shapes
+print("Natural Frequencies (rad/s):", omega_n)
+print("Mode Shapes:")
+print(mode_shapes)
+
+# Plot the mode shapes
+plt.figure(figsize=(10, 6))
+plt.plot(mode_shapes[:, 0], label=f"Mode 1 (ω = {omega_n[0]:.2f} rad/s)", marker='o')
+plt.plot(mode_shapes[:, 1], label=f"Mode 2 (ω = {omega_n[1]:.2f} rad/s)", marker='x')
+plt.title("Mode Shapes for 2-DOF System")
+plt.xlabel("Degrees of Freedom (DOF)")
+plt.ylabel("Displacement")
+plt.legend()
+plt.grid(True)
+plt.show()
