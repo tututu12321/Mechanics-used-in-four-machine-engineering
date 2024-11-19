@@ -1,0 +1,77 @@
+import numpy as np
+import matplotlib.pyplot as plt
+
+# Function to calculate complex potential for a point source
+def complex_potential(A, x, y, x0, y0):
+    z = x + 1j * y
+    z0 = x0 + 1j * y0
+    return (A / (2 * np.pi)) * np.log(z - z0)  # Complex potential for point source
+
+# Function to calculate velocity potential for a point source
+def velocity_potential(A, x, y, x0, y0):
+    r = np.sqrt((x - x0)**2 + (y - y0)**2)
+    return (A / (2 * np.pi)) * np.log(r)  # Velocity potential for point source
+
+# Function to calculate stream function for a point source
+def stream_function(A, x, y, x0, y0):
+    return -(A / (2 * np.pi)) * np.angle(x + 1j * y - (x0 + 1j * y0))  # Stream function for point source
+
+# Function to calculate complex potential using the method of images
+def method_of_images(A, x, y, x0, y0):
+    z = x + 1j * y
+    z0 = x0 + 1j * y0
+    return (A / (2 * np.pi)) * (np.log(z - z0) + np.log(z + z0))  # Complex potential with image method
+
+# Example values for the point source and image source
+A = 1.0  # Strength of the source
+x0, y0 = 1.0, 0.0  # Location of the point source (m)
+x_range = np.linspace(-2, 2, 100)
+y_range = np.linspace(-2, 2, 100)
+
+X, Y = np.meshgrid(x_range, y_range)
+
+# Calculate the complex potential, velocity potential, and stream function
+W = complex_potential(A, X, Y, x0, y0)
+phi = velocity_potential(A, X, Y, x0, y0)
+psi = stream_function(A, X, Y, x0, y0)
+
+# Plot the velocity potential (contour plot)
+plt.figure(figsize=(12, 6))
+plt.contour(X, Y, phi, 20, cmap='coolwarm')
+plt.title("Velocity Potential (φ)")
+plt.xlabel("x (m)")
+plt.ylabel("y (m)")
+plt.colorbar()
+plt.grid(True)
+plt.show()
+
+# Plot the stream function (contour plot)
+plt.figure(figsize=(12, 6))
+plt.contour(X, Y, psi, 20, cmap='coolwarm')
+plt.title("Stream Function (ψ)")
+plt.xlabel("x (m)")
+plt.ylabel("y (m)")
+plt.colorbar()
+plt.grid(True)
+plt.show()
+
+# Plot the complex potential (contour plot)
+plt.figure(figsize=(12, 6))
+plt.contour(X, Y, np.real(W), 20, cmap='coolwarm')
+plt.title("Complex Potential (W)")
+plt.xlabel("x (m)")
+plt.ylabel("y (m)")
+plt.colorbar()
+plt.grid(True)
+plt.show()
+
+# Method of Images: Complex Potential with Image Source
+W_image = method_of_images(A, X, Y, x0, y0)
+plt.figure(figsize=(12, 6))
+plt.contour(X, Y, np.real(W_image), 20, cmap='coolwarm')
+plt.title("Complex Potential with Image Source (Method of Images)")
+plt.xlabel("x (m)")
+plt.ylabel("y (m)")
+plt.colorbar()
+plt.grid(True)
+plt.show()
