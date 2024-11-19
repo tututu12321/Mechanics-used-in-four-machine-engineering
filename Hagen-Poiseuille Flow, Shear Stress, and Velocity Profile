@@ -1,0 +1,86 @@
+import numpy as np
+import matplotlib.pyplot as plt
+
+# Function to calculate the volumetric flow rate using the Hagen-Poiseuille equation
+def volumetric_flow_rate(r, delta_P, mu, L):
+    """
+    r: Radius of the pipe (m)
+    delta_P: Pressure difference (Pa)
+    mu: Dynamic viscosity of the fluid (Pa·s)
+    L: Length of the pipe (m)
+    """
+    return (np.pi * r**4 * delta_P) / (8 * mu * L)
+
+# Function to calculate the velocity profile for Hagen-Poiseuille flow
+def velocity_profile(r, delta_P, mu, L, R):
+    """
+    r: Radial distance from the center (m)
+    delta_P: Pressure difference (Pa)
+    mu: Dynamic viscosity of the fluid (Pa·s)
+    L: Length of the pipe (m)
+    R: Radius of the pipe (m)
+    """
+    return (delta_P / (4 * mu * L)) * (R**2 - r**2)
+
+# Function to calculate the shear stress at the wall for Hagen-Poiseuille flow
+def wall_shear_stress(Q, mu, R):
+    """
+    Q: Volumetric flow rate (m³/s)
+    mu: Dynamic viscosity of the fluid (Pa·s)
+    R: Radius of the pipe (m)
+    """
+    return (8 * Q) / (np.pi * R**3)
+
+# Function to calculate the shear stress distribution in the pipe
+def shear_stress_distribution(r, delta_P, mu, L, R):
+    """
+    r: Radial distance from the center (m)
+    delta_P: Pressure difference (Pa)
+    mu: Dynamic viscosity of the fluid (Pa·s)
+    L: Length of the pipe (m)
+    R: Radius of the pipe (m)
+    """
+    return (mu * delta_P / (4 * L)) * (1 - (r**2 / R**2))
+
+# Example values
+delta_P = 1000  # Pressure difference (Pa)
+mu = 0.001  # Dynamic viscosity (Pa·s)
+L = 10  # Length of the pipe (m)
+R = 0.1  # Radius of the pipe (m)
+
+# Calculate volumetric flow rate
+Q = volumetric_flow_rate(R, delta_P, mu, L)
+print(f"Volumetric Flow Rate: {Q:.2e} m³/s")
+
+# Generate radial distance array
+r = np.linspace(0, R, 100)
+
+# Calculate velocity profile
+u = velocity_profile(r, delta_P, mu, L, R)
+
+# Calculate shear stress distribution
+shear_stress = shear_stress_distribution(r, delta_P, mu, L, R)
+
+# Plot velocity profile
+plt.figure(figsize=(10, 6))
+plt.plot(r, u, label="Velocity Profile", color='blue')
+plt.title("Hagen-Poiseuille Flow - Velocity Profile")
+plt.xlabel("Radial Distance (m)")
+plt.ylabel("Velocity (m/s)")
+plt.grid(True)
+plt.legend()
+plt.show()
+
+# Plot shear stress distribution
+plt.figure(figsize=(10, 6))
+plt.plot(r, shear_stress, label="Shear Stress Distribution", color='green')
+plt.title("Hagen-Poiseuille Flow - Shear Stress Distribution")
+plt.xlabel("Radial Distance (m)")
+plt.ylabel("Shear Stress (Pa)")
+plt.grid(True)
+plt.legend()
+plt.show()
+
+# Calculate wall shear stress
+tau_wall = wall_shear_stress(Q, mu, R)
+print(f"Wall Shear Stress: {tau_wall:.2f} Pa")
