@@ -1,0 +1,74 @@
+import numpy as np
+import matplotlib.pyplot as plt
+
+# Function to calculate principal stresses (sigma1, sigma2) and maximum shear stress
+def principal_stresses(sigma_x, sigma_y, tau_xy):
+    """
+    sigma_x: Normal stress in the x-direction (Pa)
+    sigma_y: Normal stress in the y-direction (Pa)
+    tau_xy: Shear stress in the xy-plane (Pa)
+    """
+    # Calculate the principal stresses
+    sigma_avg = (sigma_x + sigma_y) / 2
+    delta = ((sigma_x - sigma_y) / 2)**2 + tau_xy**2
+    sigma_1 = sigma_avg + np.sqrt(delta)
+    sigma_2 = sigma_avg - np.sqrt(delta)
+    
+    # Calculate the maximum shear stress
+    tau_max = (sigma_1 - sigma_2) / 2
+    
+    return sigma_1, sigma_2, tau_max
+
+# Function to plot Mohr's Circle
+def mohrs_circle(sigma_x, sigma_y, tau_xy):
+    """
+    sigma_x: Normal stress in the x-direction (Pa)
+    sigma_y: Normal stress in the y-direction (Pa)
+    tau_xy: Shear stress in the xy-plane (Pa)
+    """
+    # Calculate the principal stresses
+    sigma_1, sigma_2, tau_max = principal_stresses(sigma_x, sigma_y, tau_xy)
+    
+    # Create Mohr's Circle
+    center = (sigma_x + sigma_y) / 2
+    radius = np.sqrt(((sigma_x - sigma_y) / 2)**2 + tau_xy**2)
+    
+    fig, ax = plt.subplots(figsize=(6,6))
+    circle = plt.Circle((center, 0), radius, color='blue', fill=False, linestyle='--')
+    ax.add_artist(circle)
+    
+    # Plot principal stresses
+    plt.scatter([sigma_1, sigma_2], [0, 0], color='red', label='Principal Stresses')
+    
+    # Plot shear stress
+    plt.scatter([sigma_x], [tau_xy], color='green', label='Shear Stress at (x, y)')
+    
+    # Plot maximum shear stress
+    plt.scatter([center + tau_max], [tau_max], color='purple', label='Max Shear Stress')
+    
+    # Formatting the plot
+    ax.set_xlim(center - radius - 10, center + radius + 10)
+    ax.set_ylim(-radius - 10, radius + 10)
+    ax.set_xlabel('Normal Stress (Pa)')
+    ax.set_ylabel('Shear Stress (Pa)')
+    ax.axhline(0, color='black',linewidth=1)
+    ax.axvline(0, color='black',linewidth=1)
+    ax.set_aspect('equal', 'box')
+    ax.set_title("Mohr's Circle")
+    plt.legend()
+    plt.grid(True)
+    plt.show()
+
+# Example values for plane stress state
+sigma_x = 100  # Normal stress in x-direction (Pa)
+sigma_y = 50   # Normal stress in y-direction (Pa)
+tau_xy = 30    # Shear stress in the xy-plane (Pa)
+
+# Calculate principal stresses and maximum shear stress
+sigma_1, sigma_2, tau_max = principal_stresses(sigma_x, sigma_y, tau_xy)
+print(f"Principal Stress 1 (sigma_1): {sigma_1:.2f} Pa")
+print(f"Principal Stress 2 (sigma_2): {sigma_2:.2f} Pa")
+print(f"Maximum Shear Stress (tau_max): {tau_max:.2f} Pa")
+
+# Plot Mohr's Circle
+mohrs_circle(sigma_x, sigma_y, tau_xy)
