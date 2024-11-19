@@ -1,0 +1,74 @@
+import numpy as np
+import matplotlib.pyplot as plt
+
+# Function to calculate Strouhal number
+def strouhal_number(f, L, U):
+    return f * L / U
+
+# Function to calculate Kelvin-Helmholtz vortex wavelength
+def kelvin_helmholtz_vortex(U1, U2, rho):
+    return (U1 - U2) / rho
+
+# Function to calculate Hagen-Poiseuille flow rate
+def hagen_poiseuille_flow_rate(r, delta_P, mu, L):
+    return (np.pi * r**4 * delta_P) / (8 * mu * L)
+
+# Function to calculate Darcy-Weisbach pressure loss
+def darcy_weisbach_pressure_loss(f, L, D, rho, U):
+    return f * (L / D) * (rho * U**2) / 2
+
+# Function to calculate Reynolds number
+def reynolds_number(rho, U, D, mu):
+    return (rho * U * D) / mu
+
+# Function to calculate the Darcy friction factor (using Moody chart approximation)
+def darcy_friction_factor(Re):
+    return 0.079 * Re**(-0.25)  # Approximation for turbulent flow
+
+# Example values
+f = 10  # Frequency (Hz)
+L = 1.0  # Characteristic length (m)
+U = 5.0  # Velocity (m/s)
+U1 = 10.0  # Velocity of the upper layer (m/s)
+U2 = 2.0  # Velocity of the lower layer (m/s)
+rho = 1.0  # Density of the fluid (kg/m³)
+r = 0.05  # Pipe radius (m)
+delta_P = 500  # Pressure difference (Pa)
+mu = 0.001  # Dynamic viscosity (Pa·s)
+L_pipe = 10.0  # Length of the pipe (m)
+D_pipe = 0.1  # Diameter of the pipe (m)
+P1 = 100000  # Pressure at reference point (Pa)
+
+# Calculate Strouhal number
+St = strouhal_number(f, L, U)
+print(f"Strouhal Number: {St}")
+
+# Calculate Kelvin-Helmholtz vortex wavelength
+lambda_ = kelvin_helmholtz_vortex(U1, U2, rho)
+print(f"Kelvin-Helmholtz Vortex Wavelength: {lambda_} m")
+
+# Calculate Hagen-Poiseuille flow rate
+Q = hagen_poiseuille_flow_rate(r, delta_P, mu, L_pipe)
+print(f"Hagen-Poiseuille Flow Rate: {Q:.2e} m³/s")
+
+# Calculate Darcy-Weisbach pressure loss
+f_darcy = darcy_friction_factor(5000)  # Example Reynolds number
+P_loss = darcy_weisbach_pressure_loss(f_darcy, L_pipe, D_pipe, rho, U)
+print(f"Darcy-Weisbach Pressure Loss: {P_loss:.2f} Pa")
+
+# Calculate Reynolds number
+Re = reynolds_number(rho, U, D_pipe, mu)
+print(f"Reynolds Number: {Re}")
+
+# Plotting the Moody chart (Friction factor vs Reynolds number)
+Reynolds_numbers = np.logspace(3, 8, 100)
+friction_factors = darcy_friction_factor(Reynolds_numbers)
+
+plt.figure(figsize=(10, 6))
+plt.loglog(Reynolds_numbers, friction_factors, label="Moody Chart")
+plt.title("Moody Chart - Darcy Friction Factor vs Reynolds Number")
+plt.xlabel("Reynolds Number (Re)")
+plt.ylabel("Friction Factor (f)")
+plt.grid(True)
+plt.legend()
+plt.show()
