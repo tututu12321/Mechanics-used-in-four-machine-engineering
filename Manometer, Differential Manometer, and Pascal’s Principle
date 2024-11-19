@@ -1,0 +1,49 @@
+import numpy as np
+
+# Function to calculate pressure difference using a U-tube manometer
+def manometer_pressure_difference(rho, g, h):
+    """
+    rho: Density of the fluid (kg/m³)
+    g: Gravitational acceleration (m/s²)
+    h: Height difference (m)
+    """
+    return rho * g * h  # Pressure difference (Pa)
+
+# Function to calculate pressure difference using a differential manometer
+def differential_manometer_pressure_difference(rho, g, h):
+    """
+    rho: Density of the fluid (kg/m³)
+    g: Gravitational acceleration (m/s²)
+    h: Height difference (m)
+    """
+    return rho * g * h  # Pressure difference (Pa)
+
+# Function to calculate force using Pascal's Principle
+def pascal_principle_force(A1, A2, F1):
+    """
+    A1: Area 1 (m²)
+    A2: Area 2 (m²)
+    F1: Force applied to Area 1 (N)
+    """
+    F2 = (A2 * F1) / A1  # Force applied to Area 2
+    return F2
+
+# Example values
+rho = 1000  # Density of water (kg/m³)
+g = 9.81  # Gravitational acceleration (m/s²)
+h = 0.2  # Height difference (m)
+A1 = 0.01  # Area 1 (m²)
+A2 = 0.1   # Area 2 (m²)
+F1 = 100   # Force applied to Area 1 (N)
+
+# Calculate pressure difference using U-tube manometer
+delta_P = manometer_pressure_difference(rho, g, h)
+print(f"Pressure Difference using U-tube Manometer: {delta_P:.2f} Pa")
+
+# Calculate pressure difference using Differential Manometer
+delta_P_diff = differential_manometer_pressure_difference(rho, g, h)
+print(f"Pressure Difference using Differential Manometer: {delta_P_diff:.2f} Pa")
+
+# Calculate force using Pascal's Principle
+F2 = pascal_principle_force(A1, A2, F1)
+print(f"Force applied to Area 2 using Pascal's Principle: {F2:.2f} N")
