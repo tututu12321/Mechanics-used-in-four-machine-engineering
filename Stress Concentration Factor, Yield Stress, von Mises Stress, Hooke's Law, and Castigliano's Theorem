@@ -1,0 +1,59 @@
+import numpy as np
+
+# Function to calculate the maximum stress using the stress concentration factor (K_t)
+def max_stress(K_t, sigma_nominal):
+    """
+    K_t: Stress concentration factor (dimensionless)
+    sigma_nominal: Nominal stress (Pa)
+    """
+    return K_t * sigma_nominal  # Maximum stress (Pa)
+
+# Function to calculate von Mises stress for given principal stresses
+def von_mises_stress(sigma1, sigma2, sigma3):
+    """
+    sigma1, sigma2, sigma3: Principal stresses (Pa)
+    """
+    return np.sqrt(0.5 * ((sigma1 - sigma2)**2 + (sigma2 - sigma3)**2 + (sigma3 - sigma1)**2))  # von Mises stress (Pa)
+
+# Function to calculate stress using Hooke's Law
+def hookes_law(E, epsilon):
+    """
+    E: Young's modulus (Pa)
+    epsilon: Strain (dimensionless)
+    """
+    return E * epsilon  # Stress (Pa)
+
+# Function to calculate displacement using Castigliano's theorem
+def displacement_castigliano(strain_energy, force):
+    """
+    strain_energy: Strain energy (J)
+    force: Applied force (N)
+    """
+    return strain_energy / force  # Displacement (m)
+
+# Example values for calculations
+K_t = 2.5  # Stress concentration factor (dimensionless)
+sigma_nominal = 150  # Nominal stress (Pa)
+sigma1 = 200  # Principal stress 1 (Pa)
+sigma2 = 100  # Principal stress 2 (Pa)
+sigma3 = 50   # Principal stress 3 (Pa)
+E = 210e9  # Young's modulus for steel (Pa)
+epsilon = 0.002  # Strain (dimensionless)
+strain_energy = 10  # Strain energy (J)
+force = 100  # Applied force (N)
+
+# Calculate maximum stress using stress concentration factor
+max_stress_value = max_stress(K_t, sigma_nominal)
+print(f"Maximum Stress (with Stress Concentration): {max_stress_value:.2f} Pa")
+
+# Calculate von Mises stress
+von_mises_value = von_mises_stress(sigma1, sigma2, sigma3)
+print(f"von Mises Stress: {von_mises_value:.2f} Pa")
+
+# Calculate stress using Hooke's Law
+stress_value = hookes_law(E, epsilon)
+print(f"Stress using Hooke's Law: {stress_value:.2f} Pa")
+
+# Calculate displacement using Castigliano's theorem
+displacement_value = displacement_castigliano(strain_energy, force)
+print(f"Displacement using Castigliano's Theorem: {displacement_value:.2f} m")
