@@ -1,0 +1,58 @@
+import numpy as np
+import matplotlib.pyplot as plt
+
+# Function to calculate the bending moment for a simply supported beam with uniform load
+def bending_moment(x, w, L):
+    """
+    x: Position along the beam (m)
+    w: Uniform load (N/m)
+    L: Length of the beam (m)
+    """
+    return (w * x * (L - x)) / 2  # Bending moment (N·m)
+
+# Function to calculate the moment of inertia for a rectangular section
+def moment_of_inertia_rectangular(b, h):
+    """
+    b: Width of the rectangular section (m)
+    h: Height of the rectangular section (m)
+    """
+    return (b * h**3) / 12  # Moment of inertia (m⁴)
+
+# Function to calculate the moment of inertia for a circular section
+def moment_of_inertia_circular(r):
+    """
+    r: Radius of the circular section (m)
+    """
+    return (np.pi * r**4) / 4  # Moment of inertia (m⁴)
+
+# Example values for a simply supported beam with uniform load
+L = 10  # Length of the beam (m)
+w = 500  # Uniform load (N/m)
+b = 0.2  # Width of the rectangular section (m)
+h = 0.4  # Height of the rectangular section (m)
+r = 0.1  # Radius of the circular section (m)
+
+# Calculate moment of inertia for rectangular section
+I_rect = moment_of_inertia_rectangular(b, h)
+print(f"Moment of Inertia for Rectangular Section: {I_rect:.6e} m⁴")
+
+# Calculate moment of inertia for circular section
+I_circ = moment_of_inertia_circular(r)
+print(f"Moment of Inertia for Circular Section: {I_circ:.6e} m⁴")
+
+# Generate positions along the length of the beam for BMD
+x = np.linspace(0, L, 100)
+
+# Calculate bending moment for each position
+M = np.array([bending_moment(i, w, L) for i in x])
+
+# Plotting the Bending Moment Diagram (BMD)
+plt.figure(figsize=(10, 6))
+plt.plot(x, M, label="Bending Moment (M)")
+plt.axhline(0, color='black',linewidth=1)
+plt.title("Bending Moment Diagram (BMD) for a Simply Supported Beam")
+plt.xlabel("Position along the beam (m)")
+plt.ylabel("Bending Moment (N·m)")
+plt.grid(True)
+plt.legend()
+plt.show()
