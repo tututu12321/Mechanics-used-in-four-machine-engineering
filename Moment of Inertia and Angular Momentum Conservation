@@ -1,0 +1,69 @@
+import numpy as np
+
+# Function to calculate the moment of inertia for a point mass
+def moment_of_inertia_point(m, r):
+    """
+    m: Mass of the object (kg)
+    r: Distance from the axis of rotation (m)
+    """
+    return m * r**2  # Moment of inertia for a point mass (kg·m²)
+
+# Function to calculate the moment of inertia for a solid disk
+def moment_of_inertia_disk(m, r):
+    """
+    m: Mass of the disk (kg)
+    r: Radius of the disk (m)
+    """
+    return 0.5 * m * r**2  # Moment of inertia for a solid disk (kg·m²)
+
+# Function to calculate the moment of inertia for a solid sphere
+def moment_of_inertia_sphere(m, r):
+    """
+    m: Mass of the sphere (kg)
+    r: Radius of the sphere (m)
+    """
+    return (2/5) * m * r**2  # Moment of inertia for a solid sphere (kg·m²)
+
+# Function to calculate the angular momentum
+def angular_momentum(I, omega):
+    """
+    I: Moment of inertia (kg·m²)
+    omega: Angular velocity (rad/s)
+    """
+    return I * omega  # Angular momentum (kg·m²/s)
+
+# Example values for different objects
+m_point = 5  # Mass of point mass (kg)
+r_point = 2  # Distance from the axis (m)
+
+m_disk = 10  # Mass of the disk (kg)
+r_disk = 3  # Radius of the disk (m)
+
+m_sphere = 15  # Mass of the sphere (kg)
+r_sphere = 4  # Radius of the sphere (m)
+
+omega_initial = 10  # Initial angular velocity (rad/s)
+
+# Calculate the moment of inertia for the point mass, disk, and sphere
+I_point = moment_of_inertia_point(m_point, r_point)
+I_disk = moment_of_inertia_disk(m_disk, r_disk)
+I_sphere = moment_of_inertia_sphere(m_sphere, r_sphere)
+
+print(f"Moment of Inertia for Point Mass: {I_point:.2f} kg·m²")
+print(f"Moment of Inertia for Solid Disk: {I_disk:.2f} kg·m²")
+print(f"Moment of Inertia for Solid Sphere: {I_sphere:.2f} kg·m²")
+
+# Calculate the angular momentum for each object
+L_point = angular_momentum(I_point, omega_initial)
+L_disk = angular_momentum(I_disk, omega_initial)
+L_sphere = angular_momentum(I_sphere, omega_initial)
+
+print(f"Angular Momentum for Point Mass: {L_point:.2f} kg·m²/s")
+print(f"Angular Momentum for Solid Disk: {L_disk:.2f} kg·m²/s")
+print(f"Angular Momentum for Solid Sphere: {L_sphere:.2f} kg·m²/s")
+
+# Example of Conservation of Angular Momentum (changing moment of inertia)
+I_new_point = 2 * I_point  # New moment of inertia for point mass
+omega_new_point = (I_point / I_new_point) * omega_initial  # New angular velocity for conservation
+
+print(f"New Angular Velocity for Point Mass: {omega_new_point:.2f} rad/s")
