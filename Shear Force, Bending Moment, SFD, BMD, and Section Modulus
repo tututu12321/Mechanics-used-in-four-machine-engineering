@@ -1,0 +1,70 @@
+import numpy as np
+import matplotlib.pyplot as plt
+
+# Function to calculate Shear Force (V)
+def shear_force(x, load, length):
+    """
+    x: Position along the beam (m)
+    load: Uniform load (N/m)
+    length: Length of the beam (m)
+    """
+    return load * (length / 2 - x) if x <= length / 2 else load * (x - length / 2)
+
+# Function to calculate Bending Moment (M)
+def bending_moment(x, load, length):
+    """
+    x: Position along the beam (m)
+    load: Uniform load (N/m)
+    length: Length of the beam (m)
+    """
+    return load * x * (length - x) / 2
+
+# Function to calculate Section Modulus (Z) for a rectangular section
+def section_modulus(b, h):
+    """
+    b: Width of the beam (m)
+    h: Height of the beam (m)
+    """
+    I = (b * h**3) / 12  # Moment of inertia for rectangular section
+    return 2 * I / h  # Section modulus
+
+# Example values for a simply supported beam with uniform load
+length = 10  # Length of the beam (m)
+load = 500  # Uniform load (N/m)
+b = 0.2  # Width of the beam (m)
+h = 0.4  # Height of the beam (m)
+
+# Calculate Section Modulus
+Z = section_modulus(b, h)
+print(f"Section Modulus: {Z:.4f} m³")
+
+# Generate positions along the length of the beam for SFD and BMD
+x = np.linspace(0, length, 100)
+
+# Calculate shear force and bending moment for each position
+V = np.array([shear_force(i, load, length) for i in x])
+M = np.array([bending_moment(i, load, length) for i in x])
+
+# Plot Shear Force Diagram (SFD)
+plt.figure(figsize=(12, 6))
+plt.subplot(1, 2, 1)
+plt.plot(x, V, label='Shear Force (V)')
+plt.axhline(0, color='black',linewidth=1)
+plt.title("Shear Force Diagram (SFD)")
+plt.xlabel("Position along the beam (m)")
+plt.ylabel("Shear Force (N)")
+plt.grid(True)
+plt.legend()
+
+# Plot Bending Moment Diagram (BMD)
+plt.subplot(1, 2, 2)
+plt.plot(x, M, label='Bending Moment (M)', color='r')
+plt.axhline(0, color='black',linewidth=1)
+plt.title("Bending Moment Diagram (BMD)")
+plt.xlabel("Position along the beam (m)")
+plt.ylabel("Bending Moment (N·m)")
+plt.grid(True)
+plt.legend()
+
+plt.tight_layout()
+plt.show()
