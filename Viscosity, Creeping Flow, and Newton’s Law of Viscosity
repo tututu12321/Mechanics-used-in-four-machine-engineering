@@ -1,0 +1,47 @@
+import numpy as np
+
+# Function to calculate kinematic viscosity
+def kinematic_viscosity(dynamic_viscosity, density):
+    """
+    dynamic_viscosity: Dynamic viscosity (Pa·s)
+    density: Fluid density (kg/m³)
+    """
+    return dynamic_viscosity / density  # Kinematic viscosity (m²/s)
+
+# Function to calculate drag force using Stokes' law (creeping flow)
+def stokes_drag_force(dynamic_viscosity, radius, velocity):
+    """
+    dynamic_viscosity: Dynamic viscosity of the fluid (Pa·s)
+    radius: Radius of the particle (m)
+    velocity: Velocity of the particle (m/s)
+    """
+    return 6 * np.pi * dynamic_viscosity * radius * velocity  # Drag force (N)
+
+# Function to calculate shear stress using Newton's law of viscosity
+def newtonian_shear_stress(dynamic_viscosity, shear_rate):
+    """
+    dynamic_viscosity: Dynamic viscosity (Pa·s)
+    shear_rate: Shear rate (1/s)
+    """
+    return dynamic_viscosity * shear_rate  # Shear stress (Pa)
+
+# Example values for water
+dynamic_viscosity = 0.001  # Dynamic viscosity of water (Pa·s)
+density = 1000  # Density of water (kg/m³)
+radius = 0.01  # Radius of the particle (m)
+velocity = 0.5  # Velocity of the particle (m/s)
+v = 1.0  # Plate velocity (m/s)
+h = 0.01  # Distance between plates (m)
+
+# Calculate kinematic viscosity
+kinematic_visc = kinematic_viscosity(dynamic_viscosity, density)
+print(f"Kinematic Viscosity: {kinematic_visc:.6e} m²/s")
+
+# Calculate drag force using Stokes' law
+drag_force = stokes_drag_force(dynamic_viscosity, radius, velocity)
+print(f"Stokes' Drag Force: {drag_force:.2f} N")
+
+# Calculate shear stress using Newton's law of viscosity
+shear_rate = v / h  # Shear rate (1/s)
+shear_stress = newtonian_shear_stress(dynamic_viscosity, shear_rate)
+print(f"Shear Stress (Newtonian fluid): {shear_stress:.2f} Pa")
