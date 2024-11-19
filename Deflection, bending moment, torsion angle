@@ -1,0 +1,32 @@
+import numpy as np
+
+# たわみの計算関数（単純支持梁）
+def deflection(F, L, E, I):
+    return (F * L**3) / (3 * E * I)
+
+# 曲げモーメントの計算関数（中央荷重の場合）
+def bending_moment(F, L):
+    return (F * L) / 4
+
+# ねじれ角の計算関数（円形断面の場合）
+def torsion_angle(T, L, G, J):
+    return (T * L) / (G * J)
+
+# 入力値
+F = 1000  # 荷重 (N)
+L = 2     # 梁の長さ (m)
+E = 2.1e11  # ヤング率 (Pa)
+I = 8.33e-6  # 梁の断面2次モーメント (m^4)
+T = 500     # トルク (N·m)
+G = 8.0e10  # せん断弾性係数 (Pa)
+J = 2.5e-6  # 極断面二次モーメント (m^4)
+
+# 計算
+delta = deflection(F, L, E, I)  # たわみ (m)
+M = bending_moment(F, L)        # 曲げモーメント (N·m)
+theta = torsion_angle(T, L, G, J)  # ねじれ角 (rad)
+
+# 結果表示
+print(f"Deflection: {delta:.6f} m")
+print(f"Bending Moment: {M:.2f} N·m")
+print(f"Torsion Angle: {theta:.6f} rad")
