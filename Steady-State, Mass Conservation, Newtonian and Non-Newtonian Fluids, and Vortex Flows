@@ -1,0 +1,77 @@
+import numpy as np
+
+# Function for Steady-State Flow (incompressible)
+def steady_state_flow(u, t):
+    """
+    u: Velocity of fluid (m/s)
+    t: Time (s)
+    """
+    return u  # Steady-state means the velocity is constant over time
+
+# Mass Conservation (Continuity Equation) for incompressible flow
+def mass_conservation_incompressible(v):
+    """
+    v: Velocity vector (m/s)
+    """
+    return np.divergence(v)  # Zero for incompressible flow
+
+# Newtonian Fluid Shear Stress
+def newtonian_shear_stress(mu, gamma):
+    """
+    mu: Dynamic viscosity (Pa.s)
+    gamma: Shear rate (1/s)
+    """
+    return mu * gamma  # Shear stress for Newtonian fluid
+
+# Non-Newtonian Fluid Shear Stress (Power Law)
+def non_newtonian_shear_stress(K, gamma, n):
+    """
+    K: Consistency index (Pa.s^n)
+    gamma: Shear rate (1/s)
+    n: Flow behavior index
+    """
+    return K * gamma**n  # Shear stress for non-Newtonian fluid
+
+# Potential Flow Velocity
+def potential_flow_velocity(phi):
+    """
+    phi: Velocity potential (m^2/s)
+    """
+    return np.gradient(phi)  # Velocity is the gradient of the potential function
+
+# Forced Vortex Velocity (Constant Angular Velocity)
+def forced_vortex_velocity(Gamma, r):
+    """
+    Gamma: Circulation (m^2/s)
+    r: Radial distance (m)
+    """
+    return Gamma / (2 * np.pi * r)  # Tangential velocity in a forced vortex
+
+# Free Vortex Velocity (Radial Velocity Decay)
+def free_vortex_velocity(C, r):
+    """
+    C: Constant (m^2/s)
+    r: Radial distance (m)
+    """
+    return C / r  # Velocity in a free vortex
+
+# Example values for calculation
+mu = 0.001  # Dynamic viscosity for water (Pa.s)
+gamma = 10  # Shear rate for Newtonian fluid (1/s)
+K = 0.01  # Consistency index for non-Newtonian fluid (Pa.s^n)
+n = 0.5  # Flow behavior index for non-Newtonian fluid
+Gamma = 5  # Circulation (m^2/s)
+r = 2  # Radial distance (m)
+phi = np.array([0, 1, 2, 3])  # Example potential function
+
+# Calculate values
+shear_stress_newtonian = newtonian_shear_stress(mu, gamma)
+shear_stress_non_newtonian = non_newtonian_shear_stress(K, gamma, n)
+vortex_velocity_forced = forced_vortex_velocity(Gamma, r)
+vortex_velocity_free = free_vortex_velocity(1, r)  # C=1 for example
+
+# Output results
+print(f"Newtonian Fluid Shear Stress: {shear_stress_newtonian:.2f} Pa")
+print(f"Non-Newtonian Fluid Shear Stress: {shear_stress_non_newtonian:.2f} Pa")
+print(f"Forced Vortex Velocity at r={r}m: {vortex_velocity_forced:.2f} m/s")
+print(f"Free Vortex Velocity at r={r}m: {vortex_velocity_free:.2f} m/s")
