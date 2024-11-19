@@ -1,0 +1,64 @@
+import numpy as np
+
+# Function to calculate pressure using Bernoulli's equation
+def calculate_pressure(v, h, v1, h1, P1, rho=1000, g=9.81):
+    """
+    v: Fluid velocity at the point of interest (m/s)
+    h: Height at the point of interest (m)
+    v1: Fluid velocity at the reference point (m/s)
+    h1: Height at the reference point (m)
+    P1: Pressure at the reference point (Pa)
+    rho: Fluid density (kg/m^3), default is 1000 for water
+    g: Gravitational acceleration (m/s^2), default is 9.81
+    """
+    # Using Bernoulli's equation to solve for P
+    P = P1 + 0.5 * rho * (v1**2 - v**2) + rho * g * (h1 - h)
+    return P
+
+# Function to calculate velocity using Bernoulli's equation
+def calculate_velocity(P, h, P1, v1, h1, rho=1000, g=9.81):
+    """
+    P: Pressure at the point of interest (Pa)
+    h: Height at the point of interest (m)
+    P1: Pressure at the reference point (Pa)
+    v1: Velocity at the reference point (m/s)
+    h1: Height at the reference point (m)
+    rho: Fluid density (kg/m^3), default is 1000 for water
+    g: Gravitational acceleration (m/s^2), default is 9.81
+    """
+    # Using Bernoulli's equation to solve for v
+    v = np.sqrt((2 / rho) * (P1 - P + 0.5 * rho * v1**2 + rho * g * (h1 - h)))
+    return v
+
+# Function to calculate height using Bernoulli's equation
+def calculate_height(P, v, v1, P1, h1, rho=1000, g=9.81):
+    """
+    P: Pressure at the point of interest (Pa)
+    v: Velocity at the point of interest (m/s)
+    v1: Velocity at the reference point (m/s)
+    P1: Pressure at the reference point (Pa)
+    h1: Height at the reference point (m)
+    rho: Fluid density (kg/m^3), default is 1000 for water
+    g: Gravitational acceleration (m/s^2), default is 9.81
+    """
+    # Using Bernoulli's equation to solve for h
+    h = h1 + (P1 - P + 0.5 * rho * v1**2 - 0.5 * rho * v**2) / (rho * g)
+    return h
+
+# Example values for the fluid flow
+v1 = 10.0  # Velocity at the reference point (m/s)
+h1 = 5.0  # Height at the reference point (m)
+P1 = 200000  # Pressure at the reference point (Pa)
+v = 8.0  # Fluid velocity at the point of interest (m/s)
+
+# Calculate pressure at the point of interest
+P = calculate_pressure(v, h1, v1, h1, P1)
+print(f"Pressure at the point of interest: {P:.2f} Pa")
+
+# Calculate velocity at the point of interest
+calculated_velocity = calculate_velocity(P, h1, P1, v1, h1)
+print(f"Velocity at the point of interest: {calculated_velocity:.2f} m/s")
+
+# Calculate height at the point of interest
+calculated_height = calculate_height(P, v, v1, P1, h1)
+print(f"Height at the point of interest: {calculated_height:.2f} m")
