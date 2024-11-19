@@ -1,0 +1,54 @@
+import numpy as np
+import matplotlib.pyplot as plt
+
+# Function to calculate the stress amplitude using the S-N curve equation
+def stress_amplitude(C, b, N):
+    """
+    C: Material constant (Pa)
+    b: Material exponent (dimensionless)
+    N: Number of cycles to failure
+    """
+    return C * N**(-b)  # Stress amplitude (Pa)
+
+# Function to calculate the mean stress and stress amplitude for cyclic loading
+def mean_and_amplitude(sigma_max, sigma_min):
+    """
+    sigma_max: Maximum stress (Pa)
+    sigma_min: Minimum stress (Pa)
+    """
+    sigma_m = (sigma_max + sigma_min) / 2  # Mean stress (Pa)
+    sigma_a = (sigma_max - sigma_min) / 2  # Stress amplitude (Pa)
+    return sigma_m, sigma_a
+
+# Example values for material properties and loading conditions
+C = 1.5e9  # Material constant (Pa)
+b = 0.12  # Material exponent (dimensionless)
+N = np.logspace(3, 7, 100)  # Number of cycles to failure (log scale)
+
+# Generate the S-N curve for the material
+sigma_a = stress_amplitude(C, b, N)
+
+# Example cyclic loading conditions
+sigma_max = 300  # Maximum stress (Pa)
+sigma_min = -100  # Minimum stress (Pa)
+
+# Calculate mean stress and stress amplitude
+sigma_m, sigma_a_value = mean_and_amplitude(sigma_max, sigma_min)
+print(f"Mean Stress: {sigma_m:.2f} Pa")
+print(f"Stress Amplitude: {sigma_a_value:.2f} Pa")
+
+# Plotting the S-N curve
+plt.figure(figsize=(8, 6))
+plt.loglog(N, sigma_a, label='S-N Curve', color='blue')
+plt.xlabel('Number of Cycles to Failure (N)')
+plt.ylabel('Stress Amplitude (Pa)')
+plt.title('S-N Curve for Material')
+plt.grid(True)
+plt.legend()
+
+# Mark fatigue limit (endurance limit)
+fatigue_limit = 200  # Example fatigue limit (Pa)
+plt.axhline(fatigue_limit, color='red', linestyle='--', label='Fatigue Limit')
+
+plt.legend()
+plt.show()
