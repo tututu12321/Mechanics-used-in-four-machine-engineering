@@ -1,0 +1,39 @@
+import numpy as np
+
+# Function to calculate heat energy (Q) using specific heat formula
+def calculate_heat(m, c, delta_T):
+    """
+    m: Mass of the substance (kg)
+    c: Specific heat capacity (J/kg°C)
+    delta_T: Temperature change (°C)
+    """
+    return m * c * delta_T  # Heat energy (Joules)
+
+# Function to calculate heat transfer rate (Q) using Fourier's Law
+def calculate_heat_transfer_rate(k, A, delta_T, L):
+    """
+    k: Thermal conductivity (W/m·K)
+    A: Cross-sectional area (m²)
+    delta_T: Temperature difference (K or °C)
+    L: Length of the material (m)
+    """
+    return -k * A * delta_T / L  # Heat transfer rate (W)
+
+# Example values for a solid conducting material (e.g., metal rod)
+m = 2.0  # Mass of the substance (kg)
+c = 4184  # Specific heat capacity of water (J/kg°C)
+delta_T = 10  # Temperature change (°C)
+
+k = 200  # Thermal conductivity of the material (W/m·K) (example: metal)
+A = 0.01  # Cross-sectional area (m²)
+L = 1.0   # Length of the material (m)
+
+# Calculate heat energy (Q) using specific heat formula
+Q_heat = calculate_heat(m, c, delta_T)
+
+# Calculate heat transfer rate (Q) using Fourier's Law
+Q_transfer_rate = calculate_heat_transfer_rate(k, A, delta_T, L)
+
+# Print the results
+print(f"Heat Energy (Q) using specific heat formula: {Q_heat:.2f} Joules")
+print(f"Heat Transfer Rate (Q) using Fourier's Law: {Q_transfer_rate:.2f} W")
