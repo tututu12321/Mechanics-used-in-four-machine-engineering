@@ -1,0 +1,36 @@
+import numpy as np
+
+# Stefan-Boltzmann constant (W/m²·K⁴)
+sigma = 5.670374419e-8
+
+# Function to calculate the radiative power emitted by a body
+def radiative_power(emissivity, area, temperature):
+    """
+    emissivity: Emissivity of the surface (dimensionless)
+    area: Surface area of the object (m²)
+    temperature: Temperature of the object (K)
+    """
+    return emissivity * sigma * area * temperature**4  # Radiative power (W)
+
+# Function to calculate radiative heat transfer between two bodies
+def radiative_heat_transfer(area, T1, T2):
+    """
+    area: Surface area of the body (m²)
+    T1: Temperature of the first body (K)
+    T2: Temperature of the second body (K)
+    """
+    return sigma * area * (T1**4 - T2**4)  # Radiative heat transfer (W)
+
+# Example values
+emissivity = 0.9  # Emissivity of the surface (dimensionless)
+area = 1.0  # Surface area of the object (m²)
+T1 = 800  # Temperature of the first body (K)
+T2 = 300  # Temperature of the second body (K)
+
+# Calculate radiative power of the first body
+radiative_power_result = radiative_power(emissivity, area, T1)
+print(f"Radiative Power emitted by the first body: {radiative_power_result:.2f} W")
+
+# Calculate radiative heat transfer between two bodies
+heat_transfer_result = radiative_heat_transfer(area, T1, T2)
+print(f"Radiative Heat Transfer between the bodies: {heat_transfer_result:.2f} W")
