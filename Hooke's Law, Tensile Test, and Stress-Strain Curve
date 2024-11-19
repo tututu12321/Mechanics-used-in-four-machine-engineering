@@ -1,0 +1,64 @@
+import numpy as np
+import matplotlib.pyplot as plt
+
+# Function to calculate stress using Hooke's Law
+def hookes_law(E, strain):
+    """
+    E: Young's modulus (Pa)
+    strain: Strain (dimensionless)
+    """
+    return E * strain  # Stress (Pa)
+
+# Function to generate a simulated stress-strain curve for a tensile test
+def tensile_test_curve(force, area, original_length, E, max_strain=0.02):
+    """
+    force: Applied force (N)
+    area: Original cross-sectional area (m²)
+    original_length: Original length of the specimen (m)
+    E: Young's modulus (Pa)
+    max_strain: Maximum strain for simulation (dimensionless)
+    """
+    # Generate strain values (from 0 to max strain)
+    strain = np.linspace(0, max_strain, 100)
+    
+    # Calculate corresponding stress using Hooke's Law
+    stress = hookes_law(E, strain)
+    
+    # Calculate the elongation from strain (L = L0 * (1 + strain))
+    elongation = strain * original_length
+    
+    # Calculate force from stress and area (F = σ * A)
+    force_sim = stress * area
+    
+    return strain, stress, force_sim, elongation
+
+# Example values for the tensile test
+E = 200e9  # Young's modulus for steel (Pa)
+area = 0.01  # Cross-sectional area (m²)
+original_length = 2.0  # Original length (m)
+max_strain = 0.02  # Maximum strain
+
+# Applied force and calculation for stress-strain curve
+strain, stress, force_sim, elongation = tensile_test_curve(None, area, original_length, E, max_strain)
+
+# Plotting the Stress-Strain Curve
+plt.figure(figsize=(10, 6))
+plt.subplot(1, 2, 1)
+plt.plot(strain, stress, label="Stress-Strain Curve")
+plt.xlabel("Strain")
+plt.ylabel("Stress (Pa)")
+plt.title("Stress-Strain Curve")
+plt.grid(True)
+plt.legend()
+
+# Plotting Force vs Elongation
+plt.subplot(1, 2, 2)
+plt.plot(elongation, force_sim, label="Force vs Elongation")
+plt.xlabel("Elongation (m)")
+plt.ylabel("Force (N)")
+plt.title("Force vs Elongation")
+plt.grid(True)
+plt.legend()
+
+plt.tight_layout()
+plt.show()
