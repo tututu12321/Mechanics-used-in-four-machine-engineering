@@ -1,0 +1,30 @@
+import numpy as np
+
+# 降伏応力の計算関数
+def yield_stress(P, A):
+    return P / A  # 降伏応力 = 荷重 / 断面積
+
+# 座屈荷重の計算関数（オイラーの座屈公式）
+def buckling_load(E, I, L):
+    return (np.pi**2 * E * I) / (L**2)  # 座屈荷重 = π^2 * E * I / L^2
+
+# 断面二次モーメントの計算関数（円形断面）
+def second_moment_area(r):
+    return (np.pi * r**4) / 4  # 断面二次モーメント = π * r^4 / 4
+
+# 入力値
+P = 1000  # 荷重 (N)
+A = 0.01  # 断面積 (m^2)
+E = 2.1e11  # ヤング率 (Pa)
+r = 0.05  # 半径 (m)
+L = 2     # 梁の長さ (m)
+
+# 計算
+sigma_y = yield_stress(P, A)  # 降伏応力 (Pa)
+I = second_moment_area(r)     # 断面二次モーメント (m^4)
+P_cr = buckling_load(E, I, L) # 座屈荷重 (N)
+
+# 結果表示
+print(f"Yield Stress: {sigma_y:.2f} Pa")
+print(f"Second Moment of Area: {I:.6e} m^4")
+print(f"Buckling Load (Euler's Formula): {P_cr:.2f} N")
