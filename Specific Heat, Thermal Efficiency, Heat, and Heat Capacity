@@ -1,0 +1,45 @@
+# Function to calculate heat energy (Q)
+def calculate_heat(m, c, delta_T):
+    """
+    m: Mass of the substance (kg)
+    c: Specific heat capacity (J/kg°C)
+    delta_T: Temperature change (°C)
+    """
+    return m * c * delta_T  # Heat energy (Joules)
+
+# Function to calculate thermal efficiency (eta)
+def calculate_thermal_efficiency(useful_output_energy, input_energy):
+    """
+    useful_output_energy: Useful energy output (J)
+    input_energy: Total energy input (J)
+    """
+    return (useful_output_energy / input_energy) * 100  # Efficiency in percentage
+
+# Function to calculate heat capacity (C)
+def calculate_heat_capacity(m, c):
+    """
+    m: Mass of the substance (kg)
+    c: Specific heat capacity (J/kg°C)
+    """
+    return m * c  # Heat capacity (J/°C)
+
+# Example values for water
+m_water = 2.0  # Mass of water (kg)
+c_water = 4184  # Specific heat capacity of water (J/kg°C)
+delta_T_water = 10  # Temperature change for water (°C)
+
+# Heat energy required to heat water by delta_T
+Q_water = calculate_heat(m_water, c_water, delta_T_water)
+
+# Thermal efficiency example
+useful_output_energy = 5000  # Example useful energy output (J)
+input_energy = 10000  # Example input energy (J)
+eta = calculate_thermal_efficiency(useful_output_energy, input_energy)
+
+# Heat capacity of water
+heat_capacity_water = calculate_heat_capacity(m_water, c_water)
+
+# Print the results
+print(f"Heat Energy (Q) for Water: {Q_water:.2f} Joules")
+print(f"Thermal Efficiency: {eta:.2f}%")
+print(f"Heat Capacity of Water: {heat_capacity_water:.2f} J/°C")
